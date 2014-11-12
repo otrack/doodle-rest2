@@ -1,7 +1,7 @@
 package ch.noisette.doodle.service.impl;
 
-import ch.noisette.doodle.domain.Poll;
-import ch.noisette.doodle.domain.Subscriber;
+import ch.noisette.doodle.entity.Poll;
+import ch.noisette.doodle.entity.Subscriber;
 import info.archinnov.achilles.internal.utils.UUIDGen;
 import info.archinnov.achilles.junit.AchillesResource;
 import info.archinnov.achilles.junit.AchillesResourceBuilder;
@@ -17,7 +17,7 @@ public class PollServiceImplTest extends TestCase {
 
     @Rule
     public AchillesResource resource = AchillesResourceBuilder.withEntityPackages
-            ("ch.noisette.doodle.domain").withKeyspaceName("doodle").truncateBeforeTest().build();
+            ("ch.noisette.doodle.entity").withKeyspaceName("doodle").truncateBeforeTest().build();
 
     private PersistenceManager persistenceManager = resource.getPersistenceManager();
 

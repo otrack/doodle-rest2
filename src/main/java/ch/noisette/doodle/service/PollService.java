@@ -1,7 +1,7 @@
 package ch.noisette.doodle.service;
 
-import ch.noisette.doodle.domain.Poll;
-import ch.noisette.doodle.domain.Subscriber;
+import ch.noisette.doodle.entity.Poll;
+import ch.noisette.doodle.entity.Subscriber;
 
 import java.util.List;
 

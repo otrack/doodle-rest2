@@ -1,9 +1,8 @@
 package ch.noisette.doodle.service.impl;
 
-import ch.noisette.doodle.domain.Poll;
-import ch.noisette.doodle.domain.Subscriber;
+import ch.noisette.doodle.entity.Poll;
+import ch.noisette.doodle.entity.Subscriber;
 import ch.noisette.doodle.service.PollService;
-import info.archinnov.achilles.internal.utils.UUIDGen;
 import info.archinnov.achilles.persistence.PersistenceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

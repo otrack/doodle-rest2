@@ -2,6 +2,7 @@ package ch.noisette.doodle.entity;
 
 import info.archinnov.achilles.annotations.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -10,9 +11,11 @@ import java.util.UUID;
 public class Subscriber implements Serializable {
 
 	@EmbeddedId
+	@NotNull
 	private SubscriberKey id;
 
 	@Column
+	@NotNull
 	private String label;
 
 	@Column

@@ -4,6 +4,7 @@ import info.archinnov.achilles.annotations.Column;
 import info.archinnov.achilles.annotations.Entity;
 import info.archinnov.achilles.annotations.Id;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,9 +12,11 @@ import java.util.UUID;
 public class Poll {
 
 	@Id
+	@NotNull
 	private UUID id;
 
 	@Column
+	@NotNull
 	private String label;
 
 	@Column

@@ -18,7 +18,7 @@ public class EmbeddedCassandraFactoryBean {
     private static PersistenceManager manager;
 
     @Bean
-    protected synchronized PersistenceManager createInstance() throws Exception {
+    protected PersistenceManager persistenceManager() throws Exception {
 
         if (manager == null) {
             manager = CassandraEmbeddedServerBuilder

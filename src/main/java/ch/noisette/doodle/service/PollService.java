@@ -13,7 +13,7 @@ public interface PollService {
 
 	public Poll createPoll(Poll poll);
 
-	public Poll addSubscriber(String pollId, Subscriber subscriber);
+	public Subscriber addSubscriber(String pollId, Subscriber subscriber);
 
 	public void deletePoll(String pollId);
 	

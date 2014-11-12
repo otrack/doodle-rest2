@@ -13,7 +13,7 @@ import org.junit.Rule;
 
 import java.util.*;
 
-public class PollServiceImplTest extends TestCase {
+public class PersistanceManagerTest extends TestCase {
 
     @Rule
     public AchillesResource resource = AchillesResourceBuilder.withEntityPackages

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan
 public class EmbeddedCassandraFactoryBean {
 
     private static PersistenceManager manager;

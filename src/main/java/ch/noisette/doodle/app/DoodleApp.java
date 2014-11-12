@@ -18,7 +18,7 @@ import java.util.concurrent.CountDownLatch;
  */
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan("ch.noisette.doodle")
 public class DoodleApp {
 
     @Autowired
@@ -27,5 +27,4 @@ public class DoodleApp {
     public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(DoodleApp.class, args);
     }
-
 }

@@ -58,10 +58,13 @@ Or import it directly in your favorite IDE as a Maven project.
 
 There's a complete unit test that could be run as is: [RESTBasicTest](src/test/java/ch/noisette/doodle/rest/RESTBasicTest.java)
 
+The test uses an in-memory db by default, the goal is to replace that with a Cassandra backed datastore.
+
 ## Modify it
 
-This will build the project, and run a test. The test uses an in-memory db, the goal is to replace that with a Cassandra backed datastore.
+The class [PollServiceImpl](src/main/java/ch/noisette/doodle/service/impl/PollServiceImpl.java) can be modified to implement the Cassandra part.
 
 **Note: The project requires Java 7 at least.**
 
+This class and all the project is provided for convenience, if you're familiar with other framework, feel free to write your own. The scenario described in [RESTBasicTest](src/test/java/ch/noisette/doodle/rest/RESTBasicTest.java) is the one asserting of the correctness of the implementation. 
 

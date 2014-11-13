@@ -44,14 +44,15 @@ public class RESTBasicTest
         context.close();
     }
 
+
+    /**
+     * Launch the application, create a poll, subscribe between 5 and 15 people,
+     * retrieve the poll and and assert on the output.
+     *
+     */
     @Test
     public void createPollTest() throws IOException
     {
-
-//        given().contentType("text/plainjson; charset=UTF-8")
-//          .get("/").then()
-//          .statusCode(HttpStatus.OK.value())
-//          .body("ok", equalTo("ok"));
 
         Poll poll = new Poll();
         poll.setEmail("email@address.com");
@@ -71,32 +72,48 @@ public class RESTBasicTest
 
         String pollId = pollLocation.substring(pollLocation.lastIndexOf('/') + 1);
 
-        System.out.println(pollId);
+        Assert.assertNotNull(pollId);
 
-        Subscriber s = new Subscriber();
-        s.setLabel("User1");
-        List<String> selectedChoices = new ArrayList<String>(poll.getChoices().size());
+        int numberOfSubscribers = r.nextInt(10) + 5;
+        List<String> subscriberIds = new ArrayList<String>(numberOfSubscribers);
 
-        for (String choice: poll.getChoices()) {
-            if (r.nextBoolean()) {
-                selectedChoices.add(choice);
+        for (int i = 1; i <= numberOfSubscribers; i++) {
+            Subscriber s = new Subscriber();
+            s.setLabel("User1");
+            List<String> selectedChoices = new ArrayList<String>(poll.getChoices().size());
+
+            for (String choice : poll.getChoices()) {
+                if (r.nextBoolean()) {
+                    selectedChoices.add(choice);
+                }
             }
+            s.setChoices(selectedChoices);
+
+            String subscriberLocation = given().contentType("application/json; charset=UTF-8")
+                    .body(s)
+                    .pathParam("pollId", pollId)
+                    .when()
+                    .put("/rest/poll/{pollId}")
+                    .then()
+                    .statusCode(HttpStatus.CREATED.value())
+                    .header("Location", notNullValue()).extract().header("Location");
+
+            String subscriberId = subscriberLocation.substring(subscriberLocation.lastIndexOf('/') + 1);
+
+            Assert.assertNotNull(subscriberId);
+            subscriberIds.add(subscriberId);
         }
-        s.setChoices(selectedChoices);
 
-        String subscriberLocation = given().contentType("application/json; charset=UTF-8")
-                .body(s)
-                .pathParam("pollId", pollId)
-            .when()
-                .put("/rest/poll/{pollId}")
-            .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .header("Location", notNullValue()).extract().header("Location");
+        Assert.assertEquals(numberOfSubscribers, subscriberIds.size());
 
+        Poll retrievedPoll = given().contentType("application/json; charset=UTF-8")
+                .when()
+                .get("/rest/poll/{pollId}", pollId).as(Poll.class);
 
-        String subscriberId = subscriberLocation.substring(subscriberLocation.lastIndexOf('/') + 1);
+        Assert.assertNotNull(retrievedPoll);
+        Assert.assertEquals(pollId, retrievedPoll.getId().toString());
+        Assert.assertEquals(numberOfSubscribers, retrievedPoll.getSubscribers().size());
 
-        System.out.println(subscriberId);
     }
 
 }

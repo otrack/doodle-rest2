@@ -19,7 +19,7 @@ public class PersistanceManagerTest extends TestCase {
     public AchillesResource resource = AchillesResourceBuilder.withEntityPackages
             ("ch.noisette.doodle.entity").withKeyspaceName("doodle").truncateBeforeTest().build();
 
-    private PersistenceManager persistenceManager = resource.getPersistenceManager();
+    private PersistenceManager persistenceManager = resource.getPersistenceManagerFactory().createPersistenceManager();
 
     private static Random r = new Random();
 
@@ -39,6 +39,12 @@ public class PersistanceManagerTest extends TestCase {
         }
         poll.setChoices(choices);
         persistenceManager.insert(poll);
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        //resource.close();
     }
 
     public void testGetPollById() throws Exception {

@@ -9,40 +9,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by bperroud on 11-Nov-14.
  */
-//@Service
-//@EnableAutoConfiguration
-public class PollServiceImpl implements PollService {
+@Service
+@EnableAutoConfiguration
+public class InMemoryPollServiceImpl implements PollService {
 
-    @Autowired
-    private PersistenceManager persistenceManager;
+    private final Map<String, Poll> polls = new ConcurrentHashMap<String, Poll>();
 
     @Override
     public Poll getPollById(String pollId) {
 
-        UUID uuid = UUID.fromString(pollId);
-        Poll poll;
+        Poll poll = polls.get(pollId);
 
-        poll = persistenceManager.find(Poll.class, uuid);
-        //poll = persistenceManager.removeProxy(poll);
         return poll;
     }
 
     @Override
     public List<Poll> getAllPolls() {
-        return null;
+
+        List<Poll> polls = new ArrayList<Poll>(this.polls.size());
+
+        for (Poll poll: this.polls.values()) {
+            polls.add(poll);
+        }
+        return polls;
     }
 
     @Override
     public Poll createPoll(Poll poll) {
 
         poll.setId(UUIDGen.getTimeUUID());
-        persistenceManager.insert(poll);
+
+        polls.put(poll.getId().toString(), poll);
+
+        if (poll.getSubscribers() == null) {
+            poll.setSubscribers(new ArrayList<Subscriber>());
+        }
 
         return poll;
     }
@@ -50,18 +60,24 @@ public class PollServiceImpl implements PollService {
     @Override
     public Subscriber addSubscriber(String pollId, Subscriber subscriber) {
 
+        Poll poll = polls.get(pollId);
+
+        if (poll == null) {
+            throw new IllegalStateException("Poll " + pollId + " not found");
+        }
+
         Subscriber.SubscriberKey key = new Subscriber.SubscriberKey();
         key.setPollId(UUID.fromString(pollId));
         key.setSubscriberId(UUIDGen.getTimeUUID());
         subscriber.setId(key);
 
-        persistenceManager.insert(subscriber);
+        poll.getSubscribers().add(subscriber);
 
         return subscriber;
     }
 
     @Override
     public void deletePoll(String pollId) {
-        persistenceManager.deleteById(Poll.class, pollId);
+        polls.remove(pollId);
     }
 }

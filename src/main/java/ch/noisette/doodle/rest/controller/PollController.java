@@ -29,7 +29,7 @@ public class PollController {
     @RequestMapping(value = "/", produces = "application/json")
     @ResponseBody
     ResponseEntity<String> home() {
-        return new ResponseEntity<String>("Hello world", HttpStatus.OK);
+        return new ResponseEntity<String>("Hello world", HttpStatus.MULTI_STATUS);
     }
 
     @RequestMapping(value = "/rest/poll/{pollId}", method = RequestMethod.GET)
@@ -107,8 +107,8 @@ public class PollController {
     /**
      * Updates poll with given poll id.
      *
-     * @param poll
-     *            the poll
+     * @param subscriber
+     *            the subscriber
      * @return the model and view
      */
     @RequestMapping(value = { "/rest/poll/{pollId}" }, method = { RequestMethod.PUT })

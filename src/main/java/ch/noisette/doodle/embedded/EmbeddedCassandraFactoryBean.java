@@ -28,7 +28,6 @@ public class EmbeddedCassandraFactoryBean {
                     .withCQLPort(9041)
                     .buildPersistenceManager();
         }
-
         return manager;
     }
 }

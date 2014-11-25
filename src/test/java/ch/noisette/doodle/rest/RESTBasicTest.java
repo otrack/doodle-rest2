@@ -3,6 +3,7 @@ package ch.noisette.doodle.rest;
 import ch.noisette.doodle.DoodleApp;
 import ch.noisette.doodle.entity.Poll;
 import ch.noisette.doodle.entity.Subscriber;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -31,8 +32,6 @@ public class RESTBasicTest
 {
 
     ConfigurableApplicationContext context;
-
-    private static Random r = new Random();
 
     @Before
     public void setup() {
@@ -74,7 +73,7 @@ public class RESTBasicTest
 
         Assert.assertNotNull(pollId);
 
-        int numberOfSubscribers = r.nextInt(10) + 5;
+        int numberOfSubscribers = RandomUtils.nextInt(5, 15);
         List<String> subscriberIds = new ArrayList<String>(numberOfSubscribers);
 
         for (int i = 1; i <= numberOfSubscribers; i++) {
@@ -83,7 +82,8 @@ public class RESTBasicTest
             List<String> selectedChoices = new ArrayList<String>(poll.getChoices().size());
 
             for (String choice : poll.getChoices()) {
-                if (r.nextBoolean()) {
+                // pick 3 out of 4
+                if (RandomUtils.nextInt(0, 3) != 0 ) {
                     selectedChoices.add(choice);
                 }
             }

@@ -86,10 +86,6 @@ public class PersistanceManagerTest extends TestCase {
         for (int i = 0; i < 10; i++) {
 
             Subscriber s = new Subscriber();
-            Subscriber.SubscriberKey key = new Subscriber.SubscriberKey();
-            key.setPollId(pollId);
-            key.setSubscriberId(UUID.randomUUID());
-            s.setId(key);
             s.setLabel("S" + i);
             List<String> selectedChoices = new ArrayList<String>(p.getChoices().size());
             for (String choice: p.getChoices()) {

@@ -1,14 +1,27 @@
 package ch.noisette.doodle.entity;
 
-import info.archinnov.achilles.annotations.Column;
-import info.archinnov.achilles.annotations.Entity;
-import info.archinnov.achilles.annotations.Id;
+import info.archinnov.achilles.annotations.*;
+import info.archinnov.achilles.type.InsertStrategy;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(table="users")
+/*
+ In this proposed data model there is only one table.
+ Subscriber is completely embedded into that table.
+ Pros: one single query to fetch the entire Poll
+ Cons: If there's zillion of subscribers, your application
+ might end up in OOM...
+
+ Use that if you're not expecting more than say 1000 of
+ subscribers per Poll.
+
+ Otherwise you might want to store the subscribers in a separate
+ table, with a composite key built with Poll.id and a time UUID.
+ */
+@Entity(table="poll")
+@Strategy(insert = InsertStrategy.NOT_NULL_FIELDS)
 public class Poll {
 
 	@Id
@@ -20,6 +33,7 @@ public class Poll {
 	private String label;
 
 	@Column
+	@EmptyCollectionIfNull
 	private List<String> choices;
 
 	@Column
@@ -29,6 +43,7 @@ public class Poll {
 	private Integer maxChoices;
 
 	@Column
+	@EmptyCollectionIfNull
 	private List<Subscriber> subscribers;
 
 	public UUID getId() {

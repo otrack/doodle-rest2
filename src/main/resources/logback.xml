@@ -8,6 +8,16 @@
         </encoder>
     </appender>
 
+    <!-- To log Cassandra DDLs (CREATE TABLE, ...) -->
+    <!--logger name="ACHILLES_DDL_SCRIPT">
+        <level value="DEBUG" />
+    </logger-->
+
+    <!-- To log Poll DML (INSERT INTO doodle.poll, ...) -->
+    <!--logger name="ch.noisette.doodle.entity.Poll">
+        <level value="TRACE" />
+    </logger-->
+
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>

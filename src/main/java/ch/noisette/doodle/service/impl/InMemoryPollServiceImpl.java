@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by bperroud on 11-Nov-14.
  */
-@Service
-@EnableAutoConfiguration
+//@Service
+//@EnableAutoConfiguration
 public class InMemoryPollServiceImpl implements PollService {
 
     private final Map<String, Poll> polls = new ConcurrentHashMap<String, Poll>();
@@ -66,10 +66,7 @@ public class InMemoryPollServiceImpl implements PollService {
             throw new IllegalStateException("Poll " + pollId + " not found");
         }
 
-        Subscriber.SubscriberKey key = new Subscriber.SubscriberKey();
-        key.setPollId(UUID.fromString(pollId));
-        key.setSubscriberId(UUIDGen.getTimeUUID());
-        subscriber.setId(key);
+        subscriber.setId(UUID.fromString(pollId));
 
         poll.getSubscribers().add(subscriber);
 

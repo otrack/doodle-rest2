@@ -1,31 +1,25 @@
 package ch.noisette.doodle.entity;
 
-import info.archinnov.achilles.annotations.*;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
 public class Subscriber implements Serializable {
 
-	@EmbeddedId
 	@NotNull
-	private SubscriberKey id;
+	private UUID id;
 
-	@Column
 	@NotNull
 	private String label;
 
-	@Column
 	private List<String> choices;
 
-	public SubscriberKey getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(SubscriberKey id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -50,29 +44,4 @@ public class Subscriber implements Serializable {
 		return "Subscriber [label=" + label + ", choices=" + choices + "]";
 	}
 
-	public static class SubscriberKey {
-
-		@Order(1)
-		UUID pollId;
-
-		@Order(2)
-		UUID subscriberId;
-
-
-		public UUID getSubscriberId() {
-			return subscriberId;
-		}
-
-		public void setSubscriberId(UUID subscriberId) {
-			this.subscriberId = subscriberId;
-		}
-
-		public UUID getPollId() {
-			return pollId;
-		}
-
-		public void setPollId(UUID pollId) {
-			this.pollId = pollId;
-		}
-	}
 }

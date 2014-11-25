@@ -22,7 +22,7 @@ POST /rest/polls
   }
 ```
 
-* Returns <pollId> in `Location` header
+* Returns `pollId` in `Location` header
 
 ## Add a new [Subscriber](src/main/java/ch/noisette/doodle/entity/Subscriber.java)
 
@@ -34,7 +34,7 @@ PUT /rest/polls/<pollId>
   }
 ```
 
-* Returns <subscriberId> in the `Location` header
+* Returns `subscriberId` in the `Location` header
 
 ## Retrieve the Poll
 
@@ -42,7 +42,8 @@ PUT /rest/polls/<pollId>
 GET /rest/polls/<pollId>
 ```
 
-* Returns
+* Returns JSON encoded Poll entity
+
 ```
   {
     "label": "Afterwork",

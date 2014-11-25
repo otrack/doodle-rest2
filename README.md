@@ -9,6 +9,10 @@ The interface [PollService](src/main/java/ch/noisette/doodle/service/PollService
 A [simple integration test](src/test/java/ch/noisette/doodle/test/RESTBasicTest.java) is creating a Poll, adding a few Subscribers and assert that everything is returned as expected.
 And [in-memory implementation](src/main/java/ch/noisette/doodle/service/impl/InMemoryPollService.java) is proposed in order to have the integration test passing. An [empty class](src/main/java/ch/noisette/doodle/service/impl/PollService.java) should be implemented.
 
+# Advised libraries
+
+To have a chance to complete the exercise within a decent time, it is advised to rely on [Spring Boot](http://projects.spring.io/spring-boot/) for building fast and easy rest services and [Achilles](https://github.com/doanduyhai/Achilles) for dealing with Cassandra.
+
 # REST API
 
 ## Create a new [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java)
@@ -98,3 +102,42 @@ The option presented here is the most convenient to use with [CQL 3](https://cas
 ```
 	SELECT * FROM doodle.poll WHERE id = '';
 ```
+
+# Clone it, Build it and Run it
+
+## Clone it
+
+```
+git clone https://github.com/killerwhile/doodle-rest2.git
+```
+
+**Forking it is also encouraged.**
+
+## Build it
+
+```
+mvn clean install
+```
+
+To generate Eclipse project, simply run
+
+```
+mvn eclipse:eclipse
+```
+
+Or import it directly in your favorite IDE as a Maven project.
+
+## Run it
+
+There's a complete unit test that could be run as is: [RESTBasicTest](src/test/java/ch/noisette/doodle/rest/RESTBasicTest.java)
+
+The test uses an in-memory db by default, the goal is to replace that with a Cassandra backed datastore.
+
+## Modify it
+
+The class [PollServiceImpl](src/main/java/ch/noisette/doodle/service/impl/PollServiceImpl.java) can be modified to implement the Cassandra part.
+
+**Note: The project requires Java 7 at least.**
+
+This class and all the project is provided for convenience, if you're familiar with other framework, feel free to write your own. The scenario described in [RESTBasicTest](src/test/java/ch/noisette/doodle/rest/RESTBasicTest.java) is the one asserting of the correctness of the implementation.
+

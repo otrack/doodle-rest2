@@ -60,13 +60,13 @@ PUT /rest/poll/<pollId>
 
 * Returns `subscriberId` in the `Location` header
 
-## Retrieve the Poll
+## Retrieve some [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java)
 
 ```
-GET /rest/polls/<pollId>
+GET /rest/poll/<pollId>
 ```
 
-* Returns JSON encoded Poll entity
+* Returns a [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java) 
 
 ```
   {

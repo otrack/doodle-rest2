@@ -10,18 +10,15 @@ import info.archinnov.achilles.internal.utils.UUIDGen;
 import info.archinnov.achilles.json.DefaultJacksonMapper;
 import info.archinnov.achilles.persistence.PersistenceManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by bperroud on 11-Nov-14.
  */
-@Service
-@EnableAutoConfiguration
+//@Service
+//@EnableAutoConfiguration
 public class PollServiceImpl implements PollService {
 
     @Autowired

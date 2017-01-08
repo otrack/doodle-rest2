@@ -1,80 +1,123 @@
-package ch.noisette.doodle.service.impl;
+package ch.noisette.doodle.rest.controller;
 
 import ch.noisette.doodle.entity.Poll;
 import ch.noisette.doodle.entity.Subscriber;
 import ch.noisette.doodle.service.PollService;
-import info.archinnov.achilles.internal.utils.UUIDGen;
-import info.archinnov.achilles.persistence.PersistenceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by bperroud on 11-Nov-14.
  */
-//@Service
-//@EnableAutoConfiguration
-public class InMemoryPollServiceImpl implements PollService {
 
-    private final Map<String, Poll> polls = new ConcurrentHashMap<String, Poll>();
+@RestController
+@EnableAutoConfiguration
+public class PollController {
 
-    @Override
-    public Poll getPollById(String pollId) {
+    @Autowired
+    private PollService pollService;
 
-        Poll poll = polls.get(pollId);
+    @RequestMapping(value = "/", produces = "application/json")
+    @ResponseBody
+    ResponseEntity<String> home() {
+        return new ResponseEntity<String>("Hello world", HttpStatus.MULTI_STATUS);
+    }
+
+    @RequestMapping(value = "/rest/poll/{pollId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Poll getPoll(@PathVariable("pollId") String pollId) {
+        Poll poll = null;
+
+        poll = pollService.getPollById(pollId);
 
         return poll;
     }
 
-    @Override
-    public List<Poll> getAllPolls() {
+    /**
+     * Gets all polls.
+     *
+     * @return the polls
+     */
+    @RequestMapping(value = "/rest/polls", method = RequestMethod.GET)
+    public List<Poll> getPolls() {
+        List<Poll> polls;
 
-        List<Poll> polls = new ArrayList<Poll>(this.polls.size());
+        polls = pollService.getAllPolls();
 
-        for (Poll poll: this.polls.values()) {
-            polls.add(poll);
-        }
         return polls;
     }
 
-    @Override
-    public Poll createPoll(Poll poll) {
+    /**
+     * Creates a new poll.
+     *
+     * @param poll
+     *            the poll
+     * @return the model and view
+     */
+    @RequestMapping(value = { "/rest/poll" }, method = { RequestMethod.POST })
+    public String createPoll(@RequestBody Poll poll, WebRequest request,
+                                   HttpServletResponse response) {
 
-        poll.setId(UUIDGen.getTimeUUID());
+        Poll createdPoll;
 
-        polls.put(poll.getId().toString(), poll);
+        createdPoll = pollService.createPoll(poll);
 
-        if (poll.getSubscribers() == null) {
-            poll.setSubscribers(new ArrayList<Subscriber>());
-        }
+		/* set HTTP response code */
+        response.setStatus(HttpStatus.CREATED.value());
 
-        return poll;
+		/* set location of created resource */
+        response.setHeader("Location", request.getContextPath() + "/rest/poll/" + createdPoll.getId());
+
+        /**
+         * Return the view
+         */
+        return "ok";
     }
 
-    @Override
-    public Subscriber addSubscriber(String pollId, Subscriber subscriber) {
+    /**
+     * Updates poll with given poll id.
+     *
+     * @param subscriber
+     *            the subscriber
+     * @return the model and view
+     */
+    @RequestMapping(value = { "/rest/poll/{pollId}" }, method = { RequestMethod.PUT })
+    public String addSubscriber(@RequestBody Subscriber subscriber, @PathVariable("pollId") String pollId,
+                                WebRequest request, HttpServletResponse response) {
 
-        Poll poll = polls.get(pollId);
+        Subscriber createdSubscriber;
 
-        if (poll == null) {
-            throw new IllegalStateException("Poll " + pollId + " not found");
-        }
+        createdSubscriber = pollService.addSubscriber(pollId, subscriber);
 
-        subscriber.setId(UUID.fromString(pollId));
+        response.setStatus(HttpStatus.CREATED.value());
 
-        poll.getSubscribers().add(subscriber);
+        response.setHeader("Location", request.getContextPath() + "/rest/polls/" + pollId + "/" + createdSubscriber.getId());
 
-        return subscriber;
+        return "ok";
     }
 
-    @Override
-    public void deletePoll(String pollId) {
-        polls.remove(pollId);
+    /**
+     * Deletes the poll with the given poll id.
+     *
+     * @param pollId
+     *            the poll id
+     * @return the model and view
+     */
+    @RequestMapping(value = "/rest/poll/{pollId}", method = RequestMethod.DELETE)
+    public String removePoll(@PathVariable("pollId") String pollId,
+                                   HttpServletResponse response) {
+
+        pollService.deletePoll(pollId);
+
+        response.setStatus(HttpStatus.OK.value());
+        return "ok";
     }
+
 }

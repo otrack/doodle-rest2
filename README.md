@@ -15,6 +15,15 @@ To have a chance to complete the exercise within a decent time, it is advised to
 
 # REST API
 
+## List the available [Polls](src/main/java/ch/noisette/doodle/entity/Poll.java)
+
+```
+GET /rest/polls
+{
+[{"id":"poll1","label":"Concert","choices":["Monday","Tuesday","Friday"],"email":"my@mail.com","maxChoices":1,"subscribers":null}]
+  }
+```
+
 ## Create a new [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java)
 
 ```
@@ -31,7 +40,7 @@ POST /rest/polls
 ## Add a new [Subscriber](src/main/java/ch/noisette/doodle/entity/Subscriber.java)
 
 ```
-PUT /rest/polls/<pollId>
+PUT /rest/poll/<pollId>
   {
     "name": "Benoit", 
     "choices": [ "Monday", "Friday" ]

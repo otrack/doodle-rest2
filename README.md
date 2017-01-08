@@ -19,9 +19,22 @@ To have a chance to complete the exercise within a decent time, it is advised to
 
 ```
 GET /rest/polls
-{
-[{"id":"poll1","label":"Concert","choices":["Monday","Tuesday","Friday"],"email":"my@mail.com","maxChoices":1,"subscribers":null}]
-  }
+{  
+   [  
+      {  
+         "id":"poll1",
+         "label":"Concert",
+         "choices":[  
+            "Monday",
+            "Tuesday",
+            "Friday"
+         ],
+         "email":"my@mail.com",
+         "maxChoices":1,
+         "subscribers":null
+      }
+   ]
+}
 ```
 
 ## Create a new [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java)

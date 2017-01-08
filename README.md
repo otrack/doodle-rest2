@@ -19,22 +19,20 @@ To have a chance to complete the exercise within a decent time, it is advised to
 
 ```
 GET /rest/polls
-{  
-   [  
-      {  
-         "id":"poll1",
-         "label":"Concert",
-         "choices":[  
-            "Monday",
-            "Tuesday",
-            "Friday"
-         ],
-         "email":"my@mail.com",
-         "maxChoices":1,
-         "subscribers":null
-      }
-   ]
-}
+[  
+   {  
+      "id":"734969d1-99bb-4fba-b7fb-c68b9df48c04",
+      "label":"Afterwork",
+      "choices":[  
+         "Monday",
+         "Tuesday",
+         "Friday"
+      ],
+      "email":"email@address.com",
+      "maxChoices":1,
+      "subscribers":null
+   }
+]
 ```
 
 ## Create a new [Poll](src/main/java/ch/noisette/doodle/entity/Poll.java)

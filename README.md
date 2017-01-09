@@ -53,7 +53,6 @@ POST /rest/polls
 ```
 PUT /rest/poll/<pollId>
   {
-    "id": "f2fabfd7-1240-43c0-be5c-23274b087ac8",
     "label": "benoit",
     "choices": [ "Monday", "Friday" ]
   }
